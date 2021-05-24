@@ -14,11 +14,16 @@
   "author": "harsh kumar",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
+    "connect-mongo": "^4.4.1",
+    "dotenv": "^9.0.2",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
-    "express-sessions": "^1.0.6",
-    "mongoose": "^5.12.9"
+    "express-flash": "0.0.2",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.12.9",
+    "noty": "^3.2.0-beta-deprecated"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
