@@ -1,5 +1,6 @@
 const Order = require ('../../../models/order')
 const moment = require('moment')
+const flash = require('express-flash');
 function orderController (){
     return {
         store(req, res){
@@ -16,9 +17,16 @@ function orderController (){
             address
         })
         order.save().then(result =>{
-            req.flash('success', 'Order placed Sucessfully')
-            delete req.session.cart
-            return res.redirect('/customer/orders')
+            Order.populate(result, { path: 'customerId'}, (err, placedOrder)=>{
+                req.flash('success', 'Order placed Sucessfully')
+                delete req.session.cart
+                // Emit
+                const eventEmitter = req.app.get('eventEmitter')
+                eventEmitter.emit('orderPlaced', placedOrder)
+                return res.redirect('/customer/orders')
+            })
+            
+     
         }).catch(err => {
             req.flash('error', 'Something went wrong')
             return tes.redirect('/cart')
@@ -32,6 +40,15 @@ function orderController (){
         88
            
             res.render('customers/orders', {orders: orders, moment: moment})
+        },
+        async show(req, res){
+          const order = await Order.findById(req.params.id)  
+          // Authorize user
+          if(req.user._id.toString() === order.customerId.toString()){
+             return res.render('customers/singleOrder', {order})
+          }
+                      return  res.redirect('/')
+          
         }
     }
 }

@@ -10,7 +10,7 @@ const session = require('express-session');
 const flash = require('express-flash');
 const MongodbStore = require('connect-mongo');
 const passport = require('passport')
-
+const Emitter =  require('events')
 // DataBase Connection
 const url = 'mongodb://localhost/pizza-app';
 
@@ -25,11 +25,13 @@ mongoose.connect(url,{
        console.log('Database Sucessfully Connected.....');
    }).catch(err =>{
        console.log('connection failed...');
-   });
+  
+    });
 
 
-
-
+// Event emitter
+const eventEmitter = new Emitter()
+app.set('eventEmitter', eventEmitter)
 //Session congif and session store
 app.use(session({
     secret: process.env.COOKIE_SECRET,
@@ -71,6 +73,27 @@ app.set('view engine', 'ejs');
 require('./routes/web')(app)
 
 // listning to server on port
-app.listen(3000, () =>{
+const server = app.listen(3000, () =>{
     console.log(`server is running on post ${3000}`);
+})
+
+// socket 
+
+const io = require('socket.io')(server)
+
+io.on('connection', (socket) => {
+    // join 
+       socket.on('join', (orderId) => {
+        socket.join(orderId)
+    })
+})
+
+//  For Customer 
+eventEmitter.on('orderUpdated', (data) => {
+    io.to(`order_${data.id}`).emit('orderUpdated', data)
+})
+// for Admin
+
+eventEmitter.on('orderPlaced', (data) => {
+    io.to(`adminRoom`).emit('orderPlaced', data)
 })
