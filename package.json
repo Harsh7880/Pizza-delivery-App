@@ -1,7 +1,7 @@
 {
   "name": "real-time-pizza",
   "version": "1.0.0",
-  "description": "this is real time pizza delivery web App",
+  "description": "this is real time pizza delivery web App with real time trcaking feacture.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -23,7 +23,7 @@ nav li a{
 
 section.hero{
     background: $secondry;
-    min-height: calc(100vh - 86px);
+    min-height: calc(100vh-86px);
 }
 
 .size{
@@ -185,3 +185,51 @@ section.status{
           font-size: 14px;
           margin-top: 8px;
       }
+
+// // Resonsive
+ @media (max-width:1080px){
+  .container{
+
+      max-width: 90%;
+  }
+  table{
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+  }
+
+}
+
+@media (max-width: 768px) {
+   .status-box ul li span:before{
+       font-size: 34px;;
+   }  
+   .status .container .mx-auto{
+       max-width: 90%;
+     
+   }
+    .status .stat{
+       flex-direction: column;
+   } 
+   .status .stat h1{
+       margin: 15px 0;
+   }  
+   .cart .py-16 .container{
+       max-width: 90%;
+   }
+  
+}
+
+
+.bg_img {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+}
+
+.bg_img img {
+  width: 70vh;
+  display: block;
+  position: relative;
+}
